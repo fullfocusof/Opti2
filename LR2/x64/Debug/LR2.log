@@ -4,7 +4,8 @@ E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(81,8): warning C4267: 
 E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(158,8): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
 E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(243,8): warning C4267: инициализация: преобразование из "size_t" в "int"; возможна потеря данных
 E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(285,22): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
-E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(305,12): warning C4305: инициализация: усечение из "double" в "float"
-E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(305,36): warning C4002: слишком много аргументов для вызова макроса, подобного функции, "min"
-E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(332,14): warning C4002: слишком много аргументов для вызова макроса, подобного функции, "max"
+E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(311,12): warning C4305: инициализация: усечение из "double" в "float"
+E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(311,36): warning C4002: слишком много аргументов для вызова макроса, подобного функции, "min"
+E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(338,14): warning C4002: слишком много аргументов для вызова макроса, подобного функции, "max"
+E:\Projects\NumMethods\LR2\LR2\SystemOfLinearEquation.cpp(375,14): warning C4002: слишком много аргументов для вызова макроса, подобного функции, "max"
   LR2.vcxproj -> E:\Projects\NumMethods\LR2\x64\Debug\LR2.exe

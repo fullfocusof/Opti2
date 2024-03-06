@@ -302,6 +302,12 @@ void SystemOfLinearEquation::simpleIteration(int choice)
 
 	p3 = sqrt(square_sum);
 
+	if (p1 > 1 && p2 > 1 && p3 > 1)
+	{
+		cout << "Невозможно найти решение";
+		return;
+	}
+
 	float eps = 0.00001, favMetrics = min(p1, p2, p3), compressionCoef = eps * (1 - favMetrics) / favMetrics; // кф сжатия
 
 	vector<vector<float>> values(2, vector<float>(n, 0));
@@ -343,16 +349,27 @@ void SystemOfLinearEquation::simpleIteration(int choice)
 				values[1][i] = 0;
 			}
 
+			//values[1][0] += coefsTemp[1][1] * values[0][1] + coefsTemp[1][2] * values[0][2] + constTemp[1]; // x1  1 строка   2
+			//values[1][1] += coefsTemp[2][0] * values[1][0] + coefsTemp[2][2] * values[0][2] + constTemp[2]; // x2  2 строка   0
+			//values[1][2] += coefsTemp[0][0] * values[1][0] + coefsTemp[0][1] * values[1][1] + constTemp[0]; // x3  0 строка   1
+
 			for (int i = 0; i < n; i++)
 			{
 				for (int j = 0; j < n; j++)
 				{
-					if (idX[j] == i)
+					if (i == idX[j]) // i = 0 j = 1 idX[j] = 0
 					{
-						values[1][i] += coefsTemp[][] * values[1][]
-					}
+						for (int k = 0; k < n; k++)
+						{
+							if (k != idX[j])
+							{
+								values[1][i] += coefsTemp[j][k] * values[(i - 1) < 0 ? i : (i - 1)][k];
+							}				
+						}		
+						values[1][i] += constTemp[j];
+					}	
 				}
-				values[1][i] += constTemp[i];
+				
 			}
 
 			dValues = max(values[1][0] - values[0][0], values[1][1] - values[0][1], values[1][2] - values[0][2]);
