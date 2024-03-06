@@ -36,7 +36,7 @@ int main()
 
 	while (!exitProg)
 	{
-		int x = 50, y = 12;
+		int x = 40, y = 12;
 		GoToXY(x, y);
 
 		vector<string> menu =
@@ -44,7 +44,11 @@ int main()
 			"Импорт данных из файла",
 			"Просмотр данных",
 			"Решение СЛАУ методом Гаусса",
+			"Решение СЛАУ методом Гаусса с выбором главного элемента",
 			"Вычисление определителя",
+			"Поиск обратной матрицы",
+			"Решение СЛАУ методом простых итераций",
+			"Решение СЛАУ методом Зейделя",
 			"Выход"
 		};
 
@@ -95,7 +99,7 @@ int main()
 					{
 						system("cls");
 
-						test.getFromFile("dataInput.txt");
+						test.readFromFile("dataInput.txt");
 
 						test.printQuit();
 					}
@@ -115,24 +119,7 @@ int main()
 					{
 						system("cls");
 
-						pair<vector<float>, int> result = test.gaussian_solve();
-
-						if (result.second == 0)
-						{
-							cout << "Решение: ";
-							for (int i = 0; i < result.first.size(); i++)
-							{
-								cout << "x" << i + 1 << " = " << result.first[i] << endl << "\t ";
-							}
-						}
-						else if (result.second == 1)
-						{
-							cout << "СЛАУ имеет бесконечное количество решений";
-						}
-						else
-						{
-							cout << "СЛАУ не имеет решений";
-						}
+						test.gaussian_solve();
 
 						test.printQuit();
 					}
@@ -142,13 +129,77 @@ int main()
 					{
 						system("cls");
 
-
+						test.gaussian_solveLeadElem();
 
 						test.printQuit();
 					}
 					break;
 
 					case 4:
+					{
+						system("cls");
+
+						try
+						{
+							cout << "Определитель = " << test.getDet();
+						}
+						catch (const exception&)
+						{
+							cerr << "Данные отсутствуют";
+						}
+
+						test.printQuit();
+					}
+					break;
+
+					case 5:
+					{
+						system("cls");
+						
+						try
+						{
+							vector<vector<float>> invMat = test.getMatrix().getInverseMatrix();
+
+							cout << "Обратная матрица:" << endl;
+							for (auto& row : invMat)
+							{
+								for (auto& el : row)
+								{
+									cout << el << " \t ";
+								}
+								cout << endl;
+							}
+						}
+						catch (const exception&)
+						{
+							cout << "Определитель матрицы равен нулю, обратной матрицы не существует";
+						}
+
+						test.printQuit();
+					}
+					break;
+
+					case 6:
+					{
+						system("cls");
+
+						test.simpleIteration(0);
+
+						test.printQuit();
+					}
+					break;
+
+					case 7:
+					{
+						system("cls");
+
+						test.simpleIteration(1);
+
+						test.printQuit();
+					}
+					break;
+
+					case 8:
 					{
 						system("cls");
 						exitProg = true;
