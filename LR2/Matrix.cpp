@@ -102,25 +102,25 @@ float Matrix::getDetMinor(int row, int col)
 	return determinant(minor);
 }
 
-vector<vector<float>> Matrix::getInverseMatrix()
+Matrix Matrix::getInverseMatrix()
 {
 	float det = determinant(coefs);
 
 	if (det == 0)
 	{
-		throw exception();
+		throw exception("Определитель равен нулю");
 	}
 	else
 	{
 		int n = coefs.size();
-		vector<vector<float>> result(n, vector<float>(n));
+		Matrix result(n, n);
 
 		for (int i = 0; i < n; i++)
 		{
 			for (int j = 0; j < n; j++)
 			{
 				int sign = pow(-1, i + j);
-				result[j][i] = sign * getDetMinor(i, j) / det;
+				result.setData(j, i, sign * getDetMinor(i, j) / det);
 			}
 		}
 

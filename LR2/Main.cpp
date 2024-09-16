@@ -1,4 +1,4 @@
-#include "SystemOfLinearEquation.h"
+#include "LinearProgInterraction.h"
 
 #define KEY_UP 72
 #define KEY_DOWN 80
@@ -28,7 +28,7 @@ int main()
 	SetConsoleTitle(L"СЛАУ");
 	ConsoleCursorVisible(false, 100);
 
-	SystemOfLinearEquation test;
+	LinearProgInterraction test;
 
 	int active_menu = 0;
 	int keyInput;
@@ -43,12 +43,7 @@ int main()
 		{
 			"Импорт данных из файла",
 			"Просмотр данных",
-			"Решение СЛАУ методом Гаусса",
-			"Решение СЛАУ методом Гаусса с выбором главного элемента",
-			"Вычисление определителя",
-			"Поиск обратной матрицы",
-			"Решение СЛАУ методом простых итераций",
-			"Решение СЛАУ методом Зейделя",
+			"Решение ЗЛП переборным методом",
 			"Выход"
 		};
 
@@ -119,87 +114,15 @@ int main()
 					{
 						system("cls");
 
-						test.gaussian_solve();
+						vector<pair<vector<float>, float>> solutions;
+
+						test.bruteForceMethod(solutions);
 
 						test.printQuit();
 					}
 					break;
 
 					case 3:
-					{
-						system("cls");
-
-						test.gaussian_solveLeadElem();
-
-						test.printQuit();
-					}
-					break;
-
-					case 4:
-					{
-						system("cls");
-
-						try
-						{
-							cout << "Определитель = " << test.getDet();
-						}
-						catch (const exception&)
-						{
-							cerr << "Данные отсутствуют";
-						}
-
-						test.printQuit();
-					}
-					break;
-
-					case 5:
-					{
-						system("cls");
-						
-						try
-						{
-							vector<vector<float>> invMat = test.getMatrix().getInverseMatrix();
-
-							cout << "Обратная матрица:" << endl;
-							for (auto& row : invMat)
-							{
-								for (auto& el : row)
-								{
-									cout << el << " \t ";
-								}
-								cout << endl;
-							}
-						}
-						catch (const exception&)
-						{
-							cout << "Определитель матрицы равен нулю, обратной матрицы не существует";
-						}
-
-						test.printQuit();
-					}
-					break;
-
-					case 6:
-					{
-						system("cls");
-
-						test.simpleIteration(0);
-
-						test.printQuit();
-					}
-					break;
-
-					case 7:
-					{
-						system("cls");
-
-						test.simpleIteration(1);
-
-						test.printQuit();
-					}
-					break;
-
-					case 8:
 					{
 						system("cls");
 						exitProg = true;

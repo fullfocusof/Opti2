@@ -5,43 +5,61 @@ SystemOfLinearEquation::SystemOfLinearEquation()
 	
 }
 
+SystemOfLinearEquation::SystemOfLinearEquation(vector<vector<float>>& coefs, vector<float>& consts)
+{
+	int rows = coefs.size();
+	int cols = coefs[0].size();
+
+	coefsSLE = Matrix(rows, cols);
+	constants.resize(rows);
+	
+	for (int i = 0; i < rows; i++)
+	{
+		for (int j = 0; j < cols; j++)
+		{
+			coefsSLE.setData(i,j, coefs[i][j]);
+		}
+		constants[i] = consts[i];
+	}
+}
+
 Matrix SystemOfLinearEquation::getMatrix()
 {
 	return coefsSLE;
 }
 
-void SystemOfLinearEquation::readFromFile(string filename)
-{
-	ifstream ifs(filename);
-
-	if (ifs.is_open())
-	{
-		int rows, cols;
-		ifs >> rows;
-		cols = rows;
-		coefsSLE = Matrix(rows, cols);
-		constants.resize(rows);
-
-		float value;
-		for (int i = 0; i < rows; i++)
-		{
-			for (int j = 0; j < cols; j++)
-			{
-				ifs >> value;
-				coefsSLE.setData(i, j, value);
-			}
-			ifs >> constants[i];
-		}
-
-		ifs.close();
-
-		cout << "Успешный импорт данных";
-	}
-	else
-	{
-		cerr << ">>>Ошибка открытия файла<<<";
-	}
-}
+//void SystemOfLinearEquation::readFromFile(string filename)
+//{
+//	ifstream ifs(filename);
+//
+//	if (ifs.is_open())
+//	{
+//		int rows, cols;
+//		ifs >> rows;
+//		cols = rows;
+//		coefsSLE = Matrix(rows, cols);
+//		constants.resize(rows);
+//
+//		float value;
+//		for (int i = 0; i < rows; i++)
+//		{
+//			for (int j = 0; j < cols; j++)
+//			{
+//				ifs >> value;
+//				coefsSLE.setData(i, j, value);
+//			}
+//			ifs >> constants[i];
+//		}
+//
+//		ifs.close();
+//
+//		cout << "Успешный импорт данных";
+//	}
+//	else
+//	{
+//		cerr << ">>>Ошибка открытия файла<<<";
+//	}
+//}
 
 void SystemOfLinearEquation::printData()
 {
@@ -52,7 +70,7 @@ void SystemOfLinearEquation::printData()
 	else
 	{
 		int size = coefsSLE.getMatrix().size();
-		cout << "Количество уравнений - " << size << endl << "Количество переменных - " << size << endl << endl;
+		cout << "Количество уравнений - " << size << endl << "Количество переменных - " << size << endl;
 		for (int i = 0; i < size; i++)
 		{
 			for (int j = 0; j < size - 1; j++)
@@ -70,12 +88,12 @@ float SystemOfLinearEquation::getDet()
 	return coefsSLE.determinant(coefsSLE.getMatrix());
 }
 
-void SystemOfLinearEquation::gaussian_solve()
+vector<float> SystemOfLinearEquation::gaussian_solve()
 {
 	if (coefsSLE.getMatrix().empty())
 	{
 		cout << "Данные отсутствуют";
-		return;
+		return vector<float>();
 	}
 
 	int n = coefsSLE.getMatrix().size();
@@ -107,7 +125,8 @@ void SystemOfLinearEquation::gaussian_solve()
 
 	if (!hasUniqueSolution)
 	{
-		cout << "Система уравнений не имеет решений";
+		cout << "Система уравнений не имеет решений" << endl << endl;
+		return vector<float>();
 	}
 	else
 	{
@@ -122,7 +141,8 @@ void SystemOfLinearEquation::gaussian_solve()
 
 		if (rank < n)
 		{
-			cout << "Система уравнений имеет бесконечное множество решений";
+			cout << "Система уравнений имеет бесконечное множество решений" << endl << endl;
+			return vector<float>();
 		}
 		else
 		{
@@ -143,16 +163,20 @@ void SystemOfLinearEquation::gaussian_solve()
 			{
 				cout << "x" << i + 1 << " = " << solution[i] << endl;
 			}
+
+			cout << endl;
+
+			return solution;
 		}
 	}
 }
 
-void SystemOfLinearEquation::gaussian_solveLeadElem()
+vector<float> SystemOfLinearEquation::gaussian_solveLeadElem()
 {
 	if (coefsSLE.getMatrix().empty())
 	{
 		cout << "Данные отсутствуют";
-		return;
+		return vector<float>();
 	}
 
 	int n = coefsSLE.getMatrix().size();
@@ -196,7 +220,8 @@ void SystemOfLinearEquation::gaussian_solveLeadElem()
 
 	if (!hasUniqueSolution) 
 	{
-		cout << "Система уравнений не имеет решений";
+		cout << "Система уравнений не имеет решений" << endl << endl;
+		return vector<float>();
 	}
 	else
 	{
@@ -211,7 +236,8 @@ void SystemOfLinearEquation::gaussian_solveLeadElem()
 
 		if (rank < n)
 		{
-			cout << "Система уравнений имеет бесконечное множество решений";
+			cout << "Система уравнений имеет бесконечное множество решений" << endl << endl;
+			return vector<float>();
 		}
 		else
 		{
@@ -220,20 +246,60 @@ void SystemOfLinearEquation::gaussian_solveLeadElem()
 			vector<float> solution(n); // обратный ход
 			for (int i = n - 1; i >= 0; i--)
 			{
-				float sum = 0;
+				solution[i] = constants[i];
 				for (int j = i + 1; j < n; j++)
 				{
-					sum += coefsTemp[i][j] * solution[j];
+					solution[i] -= coefsTemp[i][j] * solution[j];
 				}
-				solution[i] = (constTemp[i] - sum) / coefsTemp[i][i];
+				solution[i] /= coefsTemp[i][i];
+			}
+
+			for (int i = 0; i < n; i++)
+			{
+				if (solution[i] == -0.0f) solution[i] = 0.0f;
 			}
 
 			for (int i = 0; i < solution.size(); i++)
 			{
 				cout << "x" << i + 1 << " = " << solution[i] << endl;
 			}
+
+			return solution;
 		}
 	}
+}
+
+vector<float> SystemOfLinearEquation::inverseMatrix_Solve()
+{
+	try
+	{
+		Matrix invMatrix = coefsSLE.getInverseMatrix();
+		vector<float> constTemp = constants;
+		vector<float> solution;
+
+		int matColsSize = invMatrix.getMatrix()[0].size();
+		int constSize = constTemp.size();
+		if (matColsSize != constSize) throw exception("Разные размеры перемножаемых матриц");
+
+		int n = invMatrix.getMatrix().size();
+		for (int i = 0; i < n; i++)
+		{
+			float value = 0.0f;
+			int k = invMatrix.getMatrix()[i].size();
+			for (int j = 0; j < k; j++)
+			{
+				value += invMatrix.getData(i, j) * constTemp[j];
+			}
+			solution.push_back(value);
+		}
+
+		return solution;
+	}
+	catch (const exception&)
+	{
+		cout << "Определитель главной матрицы равен нулю, нет обратной матрицы" << endl << endl;
+	}
+	
 }
 
 void SystemOfLinearEquation::simpleIteration(int choice)
@@ -388,27 +454,4 @@ SystemOfLinearEquation::~SystemOfLinearEquation()
 {
 	coefsSLE.~Matrix();
 	constants.~vector();
-}
-
-void SystemOfLinearEquation::printQuit()
-{
-	cout << endl << endl << "Backspace - возврат в меню";
-
-	int answ = _getch();
-	bool press = false;
-
-	while (!press)
-	{
-		if (answ == 8)
-		{
-			press = true;
-			break;
-		}
-		else
-		{
-			answ = _getch();
-		}
-	}
-
-	system("cls");
 }

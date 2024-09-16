@@ -8,6 +8,8 @@
 
 #include <vector>
 #include <string>
+#include <algorithm>
+#include <utility>
 
 using namespace std;
 
@@ -28,7 +30,7 @@ public:
 	float determinant(vector<vector<float>> mat);
 
 	float getDetMinor(int row, int col);
-	vector<vector<float>> getInverseMatrix();
+	Matrix getInverseMatrix();
 
 	~Matrix();
 };

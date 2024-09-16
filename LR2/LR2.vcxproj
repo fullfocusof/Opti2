@@ -127,19 +127,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="LinearProgInterraction.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Matrix.cpp" />
     <ClCompile Include="SystemOfLinearEquation.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="LinearProgInterraction.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="SystemOfLinearEquation.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="dataInput.txt" />
-    <Text Include="infSolve.txt" />
-    <Text Include="noSolve.txt" />
-    <Text Include="oneSolve.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

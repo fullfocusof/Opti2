@@ -24,6 +24,9 @@
     <ClCompile Include="Matrix.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="LinearProgInterraction.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SystemOfLinearEquation.h">
@@ -32,18 +35,12 @@
     <ClInclude Include="Matrix.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="LinearProgInterraction.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="dataInput.txt">
-      <Filter>Исходные файлы</Filter>
-    </Text>
-    <Text Include="infSolve.txt">
-      <Filter>Исходные файлы</Filter>
-    </Text>
-    <Text Include="noSolve.txt">
-      <Filter>Исходные файлы</Filter>
-    </Text>
-    <Text Include="oneSolve.txt">
       <Filter>Исходные файлы</Filter>
     </Text>
   </ItemGroup>
